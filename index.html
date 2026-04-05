@@ -2,65 +2,62 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Mert'in Akıllı Dükkanı V3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mert'in Akıllı Dükkanı 👌</title>
     <style>
-        :root { --bg: #1a1a1a; --kart: #2d2d2d; --yazi: white; }
-        body { font-family: sans-serif; background-color: var(--bg); color: var(--yazi); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .kart { background: var(--kart); padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); text-align: center; width: 400px; }
-        input { display: block; width: 100%; margin: 15px 0; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; box-sizing: border-box; }
-        .urun-kart { border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; margin-top: 15px; }
-        img { width: 120px; border-radius: 10px; }
-        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 8px; margin-top: 10px; width: 100%; }
-        button:disabled { background: #444; cursor: not-allowed; opacity: 0.5; }
-        .temizle-btn { background: #dc3545; margin-top: 5px; }
-        /* Bu kısım aydınlık modun renklerini belirler */
-body.light-mode {
-    --bg: #f8f9fa;
-    --kart: #ffffff;
-    --yazi: #212529;
-}
-
-/* Aydınlık modda inputların görünümü */
-body.light-mode input {
-    background: #fff;
-    color: #212529;
-    border: 1px solid #ced4da;
-}
-
-/* Aydınlık modda ürün kartlarının çerçevesi */
-body.light-mode .urun-kart {
-    border: 1px solid #dee2e6;
-    background: #f1f3f5;
-}
+        body { font-family: sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .ana-kart { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 650px; text-align: center; margin-bottom: 30px; }
+        h2 { color: #2c3e50; margin-top: 0; }
+        input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.3s; margin-bottom: 10px; }
+        #wallet-section { background-color: #e8f8f5; padding: 15px; border-radius: 10px; border: 1px solid #a3e4d7; color: #16a085; font-size: 1.2rem; margin-bottom: 20px; }
+        .btn-satinal { background-color: #3498db; color: white; width: 100%; }
+        .btn-satinal:hover { background-color: #2980b9; }
+        .btn-kupon { background-color: #27ae60; color: white; width: 100%; margin-bottom: 20px; }
+        .btn-temizle { background-color: #e74c3c; color: white; width: 100%; margin-top: 15px; }
+        .urun-kart { border: 1px solid #ddd; padding: 15px; border-radius: 10px; width: 180px; background: #fff; color: #333; transition: transform 0.2s; }
+        .urun-kart:hover { transform: translateY(-5px); }
+        body.dark-mode { background-color: #2c3e50; color: #ecf0f1; }
+        body.dark-mode .ana-kart { background-color: #34495e; color: #ecf0f1; border-color: #7f8c8d; }
     </style>
 </head>
 <body>
 
-    <div class="kart">
-        <button onclick="moduDegistir()" style="background: #6c757d; margin-bottom: 20px;">☀️/🌙 Modu Değiştir</button>
+    <button onclick="moduDegistir()" style="background:#7f8c8d; color:white; padding:8px 15px; margin-bottom:15px;">☀️/🌙 Modu Değiştir</button>
+
+    <div class="ana-kart">
+        <div id="wallet-section">💰 <strong>Cüzdan:</strong> <span id="userBalance">1000</span> TL</div>
+        
         <h2>Mert'in Dükkanı</h2>
         <input type="text" id="kullaniciAdi" placeholder="Adınızı yazın...">
-        <input type="text" id="kuponKodu" placeholder="İndirim kuponu girin (Örn: MERT20)">
-<button onclick="kuponuUygula()" style="background: #28a745; margin-bottom: 15px;">Kuponu Onayla</button>
+        <input type="text" id="kuponKodu" placeholder="Kupon Kodu (MERT20)">
+        <button class="btn-kupon" onclick="kuponUygula()">Kuponu Onayla 👌</button>
         
-        <h3 id="toplamTutarAlani" style="color: #ffd700; margin: 10px 0;">Toplam: 0 TL</h3>
-        <button class="temizle-btn" onclick="sepetiSifirla()">🗑️ Sepeti Temizle</button>
-        
-        <div id="mesajAlani" style="margin: 15px 0; font-weight: bold; min-height: 24px; color: #28a745;"></div>
-
-        <div class="urun-kart">
-            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200" alt="Saat">
-            <h4>Premium Saat (500 TL)</h4>
-            <p id="saatStok">Kalan: 3 Adet</p>
-            <button id="saatButon" onclick="sepeteUrunEkle(500, 'Saat')">Ekle</button>
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <div class="urun-kart">
+             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Basketball.png/200px-Basketball.png" alt="Basketbol Topu" style="width: 100%; height: 120px; object-fit: contain; border-radius: 5px; margin-bottom: 10px;">   <h4>Basketbol Topu</h4>
+                <p>250 TL</p>
+                <button class="btn-satinal" onclick="urunSatinal(250, 'Basketbol Topu')">Satın Al</button>
+            </div>
+            <div class="urun-kart">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200" style="width:100%; height:100px; object-fit:cover; border-radius:5px;">
+                <h4>Premium Saat</h4>
+                <p id="saatStok">Kalan: 3 Adet</p>
+                <p>500 TL</p>
+                <button id="saatButon" class="btn-satinal" onclick="urunSatinal(500, 'Premium Saat')">Satın Al</button>
+            </div>
+            <div class="urun-kart">
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" style="width:100%; height:100px; object-fit:cover; border-radius:5px;">
+                <h4>Kulaklık</h4>
+                <p id="kulaklikStok">Kalan: 2 Adet</p>
+                <p>750 TL</p>
+                <button id="kulaklikButon" class="btn-satinal" onclick="urunSatinal(750, 'Oyun Kulaklığı')">Satın Al</button>
+            </div>
         </div>
 
-        <div class="urun-kart">
-            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" alt="Kulaklık">
-            <h4>Oyun Kulaklığı (750 TL)</h4>
-            <p id="kulaklikStok">Kalan: 2 Adet</p>
-            <button id="kulaklikButon" onclick="sepeteUrunEkle(750, 'Kulaklık')">Ekle</button>
-        </div>
+        <h3 id="toplamTutarAlani" style="color:#f39c12; margin:20px 0;">Toplam: 0 TL</h3>
+        <p id="mesajAlani" style="font-weight:bold; min-height:24px;"></p>
+        <button class="btn-temizle" onclick="sepetiSifirla()">🗑️ Sepeti Sıfırla</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
