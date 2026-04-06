@@ -67,4 +67,17 @@ function sepetiSifirla() {
 
 function moduDegistir() {
     document.body.classList.toggle("dark-mode");
+}function mertOzeli() {
+    // 1. Önce toplam tutarın yazdığı tabelacı çocuğu çağıralım
+    const toplamAlan = document.getElementById("toplamTutarAlani");
+
+    // 2. Eğer toplam tutar 0'dan büyükse (Sepette ürün varsa)
+    if (toplamTutar > 0) {
+        toplamTutar = toplamTutar / 2; // Fiyatı yarıya indir!
+        toplamAlan.innerText = "Mert Kıyağı: " + toplamTutar + " TL";
+        alert("Mert Hocam, %50 indirim tanımlandı! Güle güle harca.");
+    } else {
+        // 3. Yoksa (Sepet boşsa)
+        alert("Hocam önce sepete bir şeyler at, boş kasaya indirim yapamayız! 😂");
+    }
 }
