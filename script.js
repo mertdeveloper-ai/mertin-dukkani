@@ -67,17 +67,39 @@ function sepetiSifirla() {
 
 function moduDegistir() {
     document.body.classList.toggle("dark-mode");
-}function mertOzeli() {
-    // 1. Önce toplam tutarın yazdığı tabelacı çocuğu çağıralım
+}// ==========================================
+// MERT'İN ÖZEL YÖNETİCİ FONKSİYONLARI
+// ==========================================
+
+function mertOzeli() {
+    // 1. Ekrandaki toplam tutar alanını (tabelayı) seçiyoruz
     const toplamAlan = document.getElementById("toplamTutarAlani");
 
-    // 2. Eğer toplam tutar 0'dan büyükse (Sepette ürün varsa)
+    // 2. Karar Mekanizması: Sepette ürün var mı?
     if (toplamTutar > 0) {
-        toplamTutar = toplamTutar / 2; // Fiyatı yarıya indir!
-        toplamAlan.innerText = "Mert Kıyağı: " + toplamTutar + " TL";
-        alert("Mert Hocam, %50 indirim tanımlandı! Güle güle harca.");
+        toplamTutar = toplamTutar / 2; // Fiyatı yarıya indir
+        toplamAlan.innerText = "Mert Kiyagi: " + toplamTutar + " TL";
+        alert("Mert Hocam, %50 indirim tanimlandi! Gule gule harca.");
     } else {
-        // 3. Yoksa (Sepet boşsa)
-        alert("Hocam önce sepete bir şeyler at, boş kasaya indirim yapamayız! 😂");
+        // Sepet boşsa uyarı ver
+        alert("Hocam once sepete bir seyler at, bos kasaya indirim yapamayiz! 😂");
+    }
+}
+    // ==========================================
+// OYUN MEKANİKLERİ (ŞANS SİSTEMİ)
+// ==========================================
+
+function sansZari() {
+    // 1. Bilgisayara 1 ile 10 arasında rastgele bir sayı tutturalım
+    const sansliSayi = Math.floor(Math.random() * 10) + 1;
+    const toplamAlan = document.getElementById("toplamTutarAlani");
+
+    // 2. Karar Mekanizması (Eğer sayı 7 ve üzeriyse şanslısın!)
+    if (sansliSayi >= 7) {
+        toplamTutar = toplamTutar * 0.9; // %10 ekstra indirim
+        toplamAlan.innerText = "Sansli Mert! Yeni Tutar: " + toplamTutar.toFixed(2) + " TL";
+        alert("BÜYÜK ŞANS! Zar: " + sansliSayi + ". Ekstra %10 indirim kaptın! 🎯");
+    } else {
+        alert("Şansına küs hocam... Zar: " + sansliSayi + ". Tekrar dene! 🎲");
     }
 }
