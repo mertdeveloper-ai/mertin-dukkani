@@ -3,70 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mert'in Akıllı Dükkanı 👌</title>
+    <title>MertiX Games - Akıllı Dükkan 👌</title>
     <style>
         body { font-family: sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .ana-kart { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 650px; text-align: center; margin-bottom: 30px; }
         h2 { color: #2c3e50; margin-top: 0; }
         input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
         button { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.3s; margin-bottom: 10px; }
-        #wallet-section { background-color: #e8f8f5; padding: 15px; border-radius: 10px; border: 1px solid #a3e4d7; color: #16a085; font-size: 1.2rem; margin-bottom: 20px; }
+        #wallet-section { background-color: #e8f8f5; padding: 15px; border-radius: 10px; border: 1px solid #a3e4d7; color: #16a085; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold; }
         .btn-satinal { background-color: #3498db; color: white; width: 100%; }
         .btn-satinal:hover { background-color: #2980b9; }
-        .btn-kupon { background-color: #27ae60; color: white; width: 100%; margin-bottom: 20px; }
-        .btn-temizle { background-color: #e74c3c; color: white; width: 100%; margin-top: 15px; }
-        .urun-kart { border: 1px solid #ddd; padding: 15px; border-radius: 10px; width: 180px; background: #fff; color: #333; transition: transform 0.2s; }
-        .urun-kart:hover { transform: translateY(-5px); }
+        .btn-kupon { background-color: #27ae60; color: white; }
+        .btn-sans { background-color: #f39c12; color: white; }
+        .btn-temizle { background-color: #e74c3c; color: white; }
+        .urun-kart { border: 1px solid #ddd; padding: 15px; border-radius: 10px; width: 180px; background: #fff; text-align: center; }
         body.dark-mode { background-color: #2c3e50; color: #ecf0f1; }
-        body.dark-mode .ana-kart { background-color: #34495e; color: #ecf0f1; border-color: #7f8c8d; }
+        body.dark-mode .ana-kart { background-color: #34495e; color: #ecf0f1; }
+        #mesajAlani { margin-top: 10px; font-weight: bold; min-height: 20px; }
     </style>
 </head>
 <body>
 
-    <button onclick="moduDegistir()" style="background:#7f8c8d; color:white; padding:8px 15px; margin-bottom:15px;">☀️/🌙 Modu Değiştir</button>
+    <button onclick="moduDegistir()" style="background:#7f8c8d; color:white; padding:8px 15px; margin-bottom:15px; width: auto;">☀️/🌙 Modu Değiştir</button>
 
     <div class="ana-kart">
-        <div id="wallet-section">💰 <strong>Cüzdan:</strong> <span id="userBalance">1000</span> TL</div>
+        <div id="wallet-section">💰 Cüzdan: <span id="bakiye-miktari">1000</span> TL</div>
         
-        <h2>Mert'in Dükkanı</h2>
-        <input type="text" id="kullaniciAdi" placeholder="Adınızı yazın...">
+        <h2>MertiX Games Market</h2>
+        
         <input type="text" id="kuponKodu" placeholder="Kupon Kodu (MERT20)">
         <button class="btn-kupon" onclick="kuponUygula()">Kuponu Onayla 👌</button>
-        
-        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <button class="btn-sans" onclick="sansZari()">🍀 Şansımı Dene (%10 İndirim Zarı)</button>
+        <div id="mesajAlani"></div>
+
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
             <div class="urun-kart">
-             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Basketball.png/200px-Basketball.png" alt="Basketbol Topu" style="width: 100%; height: 120px; object-fit: contain; border-radius: 5px; margin-bottom: 10px;">   <h4>Basketbol Topu</h4>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Basketball.png/200px-Basketball.png" width="80">
+                <h4>Basketbol Topu</h4>
                 <p>250 TL</p>
-                <button class="btn-satinal" onclick="urunSatinal(250, 'Basketbol Topu')">Satın Al</button>
+                <button class="btn-satinal" onclick="satinAl(1)">Satın Al</button>
             </div>
+
             <div class="urun-kart">
-                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200" style="width:100%; height:100px; object-fit:cover; border-radius:5px;">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200" width="100%" height="80" style="object-fit:cover;">
                 <h4>Premium Saat</h4>
-                <p id="saatStok">Kalan: 3 Adet</p>
                 <p>500 TL</p>
-                <button id="saatButon" class="btn-satinal" onclick="urunSatinal(500, 'Premium Saat')">Satın Al</button>
+                <button class="btn-satinal" onclick="satinAl(2)">Satın Al</button>
             </div>
+
             <div class="urun-kart">
-                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" style="width:100%; height:100px; object-fit:cover; border-radius:5px;">
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" width="100%" height="80" style="object-fit:cover;">
                 <h4>Kulaklık</h4>
-                <p id="kulaklikStok">Kalan: 2 Adet</p>
                 <p>750 TL</p>
-                <button id="kulaklikButon" class="btn-satinal" onclick="urunSatinal(750, 'Oyun Kulaklığı')">Satın Al</button>
+                <button class="btn-satinal" onclick="satinAl(3)">Satın Al</button>
             </div>
         </div>
-
-        <h3 id="toplamTutarAlani" style="color:#f39c12; margin:20px 0;">Toplam: 0 TL</h3>
-        <button onclick="mertOzeli()" style="background-color: gold; color: black; font-weight: bold; margin-top: 10px;">
-    Mert Özel İndirimi (%50)
-     🚀<button onclick="sansZari()" style="background-color: #4CAF50; color: white; margin-top: 10px; padding: 10px; border-radius: 5px; cursor: pointer;">
-    🎰 Şansını Dene (Ekstra İndirim!)
-</button>
-</button>
-        <p id="mesajAlani" style="font-weight:bold; min-height:24px;"></p>
-        <button class="btn-temizle" onclick="sepetiSifirla()">🗑️ Sepeti Sıfırla</button>
+<div id="envanter-alani" style="margin-top: 20px; padding: 15px; border-top: 2px dashed #ddd; width: 100%;">
+    <h3>🎒 Sırt Çantam (Sahip Olduğun Eşyalar)</h3>
+    <ul id="envanter-listesi" style="list-style: none; padding: 0; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <li style="color: #95a5a6;">Henüz bir şey almadın hocam...</li>
+    </ul>
+</div>
+        <button class="btn-temizle" onclick="sepetiSifirla()">🧹 Dükkanı Sıfırla</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,105 +1,86 @@
 let bakiye = 1000;
-let toplamTutar = 0;
-let saatStok = 3;
-let kulaklikStok = 2;
 let indirimKullanildi = false;
+let envanter = []; // Boş çantamız burada duracak
+const urunler = [
+    { id: 1, ad: "Basketbol Topu", fiyat: 250, stok: 5 },
+    { id: 2, ad: "Premium Saat", fiyat: 500, stok: 3 },
+    { id: 3, ad: "Kulaklık", fiyat: 750, stok: 2 }
+];
 
-function urunSatinal(fiyat, urunAdi) {
-    const bakiyeGosterge = document.getElementById("userBalance");
-    const toplamGosterge = document.getElementById("toplamTutarAlani");
+function bakiyeGuncelle() {
+    document.getElementById("bakiye-miktari").innerText = bakiye;
+}
+
+function satinAl(urunId) {
+    const urun = urunler.find(u => u.id === urunId);
     const mesaj = document.getElementById("mesajAlani");
 
-    if (bakiye >= fiyat) {
-        // Stok Kontrolü
-        if (urunAdi === 'Premium Saat') {
-            if (saatStok > 0) { saatStok--; document.getElementById("saatStok").innerText = "Kalan: " + saatStok + " Adet"; }
-            else { mesaj.innerText = "Saat bitti Mert hocam! ⌚"; return; }
-        }
-        if (urunAdi === 'Oyun Kulaklığı') {
-            if (kulaklikStok > 0) { kulaklikStok--; document.getElementById("kulaklikStok").innerText = "Kalan: " + kulaklikStok + " Adet"; }
-            else { mesaj.innerText = "Kulaklık bitti Mert hocam! 🎧"; return; }
-        }
+    if (urun.stok > 0 && bakiye >= urun.fiyat) {
+        bakiye -= urun.fiyat;
+        urun.stok -= 1;
+        
+        // --- ÇANTA MANTIĞI BURADA ---
+        envanter.push(urun.ad); // Ürünü listeye ekler
+        envanterGuncelle();     // Listeyi ekranda tazeler
+        // ----------------------------
 
-        bakiye -= fiyat;
-        toplamTutar += fiyat;
-        
-        bakiyeGosterge.innerText = bakiye;
-        toplamGosterge.innerText = "Toplam: " + toplamTutar + " TL";
-        
-        mesaj.innerText = urunAdi + " başarıyla alındı! 👌";
-        mesaj.style.color = "#2ecc71";
-        confetti(); // KONFETİ!
-        
-        setTimeout(() => { mesaj.innerText = ""; }, 3000);
+        mesaj.innerText = `${urun.ad} alındı! Çantana eklendi. 👌`;
+        mesaj.style.color = "#27ae60";
+        bakiyeGuncelle();
     } else {
-        mesaj.innerText = "Yetersiz bakiye hocam! ❌";
+        alert("Ya para bitti ya stok!");
+    }
+}
+function kuponUygula() {
+    const kupon = document.getElementById("kuponKodu").value;
+    const mesaj = document.getElementById("mesajAlani");
+
+    if (kupon === "MERT20" && !indirimKullanildi) {
+        bakiye += 200; // Mert kıyağı: İndirim yerine hediye para verelim (daha kolay)
+        bakiyeGuncelle();
+        indirimKullanildi = true;
+        mesaj.innerText = "Kupon Kabul! 200 TL bakiye eklendi! 💸";
+        mesaj.style.color = "#2ecc71";
+    } else {
+        mesaj.innerText = "Kupon geçersiz veya zaten kullanıldı! ❌";
         mesaj.style.color = "#e74c3c";
     }
 }
 
-function kuponUygula() {
-    const kupon = document.getElementById("kuponKodu").value;
-    const mesaj = document.getElementById("mesajAlani");
-    const toplamGosterge = document.getElementById("toplamTutarAlani");
-
-    if (kupon === "MERT20" && !indirimKullanildi) {
-        if (toplamTutar > 0) {
-            let indirim = toplamTutar * 0.20;
-            toplamTutar -= indirim;
-            toplamGosterge.innerText = "Toplam: " + toplamTutar + " TL (İndirimli!)";
-            indirimKullanildi = true;
-            mesaj.innerText = "Kupon kabul edildi! %20 indirim yapıldı 💸";
-            mesaj.style.color = "#2ecc71";
-            confetti();
-        } else {
-            mesaj.innerText = "Önce ürün almalısın hocam! 🛒";
-        }
-    } else if (indirimKullanildi) {
-        mesaj.innerText = "Kupon zaten kullanıldı! 🛑";
+function sansZari() {
+    const sansliSayi = Math.floor(Math.random() * 10) + 1;
+    if (sansliSayi >= 7) {
+        bakiye += 100;
+        bakiyeGuncelle();
+        alert("BÜYÜK ŞANS! Zar: " + sansliSayi + ". 100 TL hediye kazandın! 🎯");
     } else {
-        mesaj.innerText = "Geçersiz kupon! ❌";
+        alert("Zar: " + sansliSayi + ". Şansına küs hocam! 🎲");
     }
 }
 
 function sepetiSifirla() {
-    location.reload(); // En temizi sayfayı yenilemek
+    const mesaj = document.getElementById("mesajAlani");
+    
+    mesaj.innerText = "🧹 Dükkan temizlendi, raflar yenileniyor...";
+    mesaj.style.color = "#e67e22";
+
+    setTimeout(function() {
+        location.reload();
+    }, 1000);
 }
+function moduDegistir() { document.body.classList.toggle("dark-mode"); }
 
-function moduDegistir() {
-    document.body.classList.toggle("dark-mode");
-}// ==========================================
-// MERT'İN ÖZEL YÖNETİCİ FONKSİYONLARI
-// ==========================================
+function envanterGuncelle() {
+    const liste = document.getElementById("envanter-listesi");
+    liste.innerHTML = ""; // Önce eski listeyi bir süpürelim
 
-function mertOzeli() {
-    // 1. Ekrandaki toplam tutar alanını (tabelayı) seçiyoruz
-    const toplamAlan = document.getElementById("toplamTutarAlani");
-
-    // 2. Karar Mekanizması: Sepette ürün var mı?
-    if (toplamTutar > 0) {
-        toplamTutar = toplamTutar / 2; // Fiyatı yarıya indir
-        toplamAlan.innerText = "Mert Kiyagi: " + toplamTutar + " TL";
-        alert("Mert Hocam, %50 indirim tanimlandi! Gule gule harca.");
-    } else {
-        // Sepet boşsa uyarı ver
-        alert("Hocam once sepete bir seyler at, bos kasaya indirim yapamayiz! 😂");
-    }
-}
-    // ==========================================
-// OYUN MEKANİKLERİ (ŞANS SİSTEMİ)
-// ==========================================
-
-function sansZari() {
-    // 1. Bilgisayara 1 ile 10 arasında rastgele bir sayı tutturalım
-    const sansliSayi = Math.floor(Math.random() * 10) + 1;
-    const toplamAlan = document.getElementById("toplamTutarAlani");
-
-    // 2. Karar Mekanizması (Eğer sayı 7 ve üzeriyse şanslısın!)
-    if (sansliSayi >= 7) {
-        toplamTutar = toplamTutar * 0.9; // %10 ekstra indirim
-        toplamAlan.innerText = "Sansli Mert! Yeni Tutar: " + toplamTutar.toFixed(2) + " TL";
-        alert("BÜYÜK ŞANS! Zar: " + sansliSayi + ". Ekstra %10 indirim kaptın! 🎯");
-    } else {
-        alert("Şansına küs hocam... Zar: " + sansliSayi + ". Tekrar dene! 🎲");
-    }
+    envanter.forEach(esya => {
+        let yeniEsya = document.createElement("li");
+        yeniEsya.innerText = "🔹 " + esya;
+        yeniEsya.style.background = "#ecf0f1";
+        yeniEsya.style.padding = "5px 10px";
+        yeniEsya.style.borderRadius = "5px";
+        yeniEsya.style.border = "1px solid #bdc3c7";
+        liste.appendChild(yeniEsya);
+    });
 }
