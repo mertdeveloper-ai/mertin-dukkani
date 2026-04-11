@@ -1,14 +1,31 @@
-let bakiye = 1000;
+
+let bakiye = localStorage.getItem("mertiX_bakiye") ? parseInt(localStorage.getItem("mertiX_bakiye")) : 1000;
+let envanter = localStorage.getItem("mertiX_envanter") ? JSON.parse(localStorage.getItem("mertiX_envanter")) : [];
 let indirimKullanildi = false;
-let envanter = []; // Boş çantamız burada duracak
 const urunler = [
-    { id: 1, ad: "Basketbol Topu", fiyat: 250, stok: 5 },
-    { id: 2, ad: "Premium Saat", fiyat: 500, stok: 3 },
-    { id: 3, ad: "Kulaklık", fiyat: 750, stok: 2 }
+    { id: 1, ad: "Basketbol Topu", fiyat: 250, stok: 10 },
+    { id: 2, ad: "Premium Saat", fiyat: 500, stok: 5 },
+    { id: 3, ad: "Kulaklık", fiyat: 750, stok: 3 }
 ];
+
 
 function bakiyeGuncelle() {
     document.getElementById("bakiye-miktari").innerText = bakiye;
+    verileriKaydet(); // Her değişimde "Save" yapar
+}
+
+
+function envanterGuncelle() {
+    const liste = document.getElementById("envanter-listesi");
+    liste.innerHTML = ""; 
+
+    envanter.forEach(esya => {
+        let yeniEsya = document.createElement("li");
+        yeniEsya.innerText = "🔹 " + esya;
+        // ... (diğer stil kodların burada duruyor zaten)
+        liste.appendChild(yeniEsya);
+    });
+    verileriKaydet(); // Çanta değişince de "Save" yapar
 }
 
 function satinAl(urunId) {
@@ -83,4 +100,9 @@ function envanterGuncelle() {
         yeniEsya.style.border = "1px solid #bdc3c7";
         liste.appendChild(yeniEsya);
     });
+}bakiyeGuncelle();
+envanterGuncelle();
+function verileriKaydet() {
+    localStorage.setItem("mertiX_bakiye", bakiye);
+    localStorage.setItem("mertiX_envanter", JSON.stringify(envanter));
 }
