@@ -87,22 +87,53 @@ function sepetiSifirla() {
 }
 function moduDegistir() { document.body.classList.toggle("dark-mode"); }
 
-function envanterGuncelle() {
+  function envanterGuncelle() {
     const liste = document.getElementById("envanter-listesi");
-    liste.innerHTML = ""; // Önce eski listeyi bir süpürelim
+    liste.innerHTML = ""; // Listeyi temizle
 
-    envanter.forEach(esya => {
+    envanter.forEach((esya, index) => {
         let yeniEsya = document.createElement("li");
-        yeniEsya.innerText = "🔹 " + esya;
-        yeniEsya.style.background = "#ecf0f1";
-        yeniEsya.style.padding = "5px 10px";
+        
+        // Şık görünmesi için stil verelim
+        yeniEsya.style.display = "flex";
+        yeniEsya.style.justifyContent = "space-between";
+        yeniEsya.style.alignItems = "center";
+        yeniEsya.style.padding = "8px";
+        yeniEsya.style.marginBottom = "5px";
+        yeniEsya.style.background = "#f9f9f9";
+        yeniEsya.style.border = "1px solid #ddd";
         yeniEsya.style.borderRadius = "5px";
-        yeniEsya.style.border = "1px solid #bdc3c7";
+
+        // İÇERİK: Eşya ismi ve Sat butonu
+        yeniEsya.innerHTML = `
+            <span>🔹 ${esya}</span>
+            <button onclick="esyaSat(${index})" style="background-color: #ff4d4d; color: white; border: none; padding: 4px 10px; cursor: pointer; border-radius: 4px;">Sat</button>
+        `;
+        
         liste.appendChild(yeniEsya);
     });
-}bakiyeGuncelle();
+
+    verileriKaydet(); // Hafızaya son hali yaz
+} 
+bakiyeGuncelle();
 envanterGuncelle();
 function verileriKaydet() {
     localStorage.setItem("mertiX_bakiye", bakiye);
     localStorage.setItem("mertiX_envanter", JSON.stringify(envanter));
+}
+function esyaSat(sirasi) {
+    let satilanEsyaAdi = envanter[sirasi];
+    
+    // Ürünün fiyatını ana listeden bulalım ki parayı iade edebilelim
+    let urunBilgisi = urunler.find(u => u.ad === satilanEsyaAdi);
+    
+    if (urunBilgisi) {
+        bakiye += urunBilgisi.fiyat; // Parayı cüzdana geri koy
+        envanter.splice(sirasi, 1);  // Diziden tam o sıradaki elemanı söküp at
+        
+        bakiyeGuncelle();   // Cüzdanı ekranda tazele
+        envanterGuncelle(); // Listeyi ekranda tazele
+        
+        console.log(satilanEsyaAdi + " başarıyla satıldı ve " + urunBilgisi.fiyat + " TL iade edildi.");
+    }
 }
