@@ -1,11 +1,12 @@
 // Verileri Tarayıcıdan Çek
-let bakiye = localStorage.getItem("mertiX_bakiye") ? parseInt(localStorage.getItem("mertiX_bakiye")) : 1000;
+let bakiye = localStorage.getItem("mertiX_bakiye") ? parseInt(localStorage.getItem("mertiX_bakiye")) : 2000;
 let envanter = localStorage.getItem("mertiX_envanter") ? JSON.parse(localStorage.getItem("mertiX_envanter")) : [];
 
 const urunler = [
     { id: 1, ad: "Basketbol Topu", fiyat: 250, resim: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Basketball.png/200px-Basketball.png" },
     { id: 2, ad: "Premium Saat", fiyat: 500, resim: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200" },
-    { id: 3, ad: "Kulaklık", fiyat: 750, resim: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" }
+    { id: 3, ad: "Kulaklık", fiyat: 750, resim: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" },
+    { id: 4, ad: "Gamer Kulaklık", fiyat: 1500, resim: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" }
 ];
 
 function bakiyeGuncelle() {
@@ -73,5 +74,25 @@ function sepetiSifirla() {
 }
 
 // Sayfa açıldığında verileri bas
+function dukkaniYukle() {
+    const marketAlani = document.getElementById("market-konteynir");
+    if(!marketAlani) return;
+
+    marketAlani.innerHTML = "";
+
+    urunler.forEach(urun => {
+        marketAlani.innerHTML += `
+            <div class="urun-kart">
+                <img src="${urun.resim}" width="50" height="50" style="object-fit:contain;"><br>
+                <h3>${urun.ad}</h3>
+                <p>Fiyat: ${urun.fiyat} TL</p>
+                <button class="btn-satinal" onclick="satinAl(${urun.id})">Satın Al</button>
+            </div>
+        `;
+    });
+}
+
+// Sayfa açıldığında her şeyi başlat
 bakiyeGuncelle();
 envanterGuncelle();
+dukkaniYukle();
