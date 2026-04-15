@@ -16,9 +16,47 @@
         .btn-satinal { background-color: #3498db; color: white; }
         .btn-satinal:hover { background-color: #2980b9; }
         .btn-mod { background: #7f8c8d; color: white; width: auto; margin-bottom: 15px; }
-        body.dark-mode { background-color: #2c3e50; color: white; }
-        body.dark-mode .ana-kart { background-color: #34495e; }
-        #mesajAlani { margin-top: 15px; font-weight: bold; height: 20px; }
+        /* --- GECE MODU PROFESYONEL AYARLAR --- */
+
+/* Arka planı daha asil bir koyu gri/siyah yapalım */
+body.dark-mode {
+    background-color: #121212 !important; 
+    color: #e0e0e0 !important;
+}
+
+/* Gece modunda ana kartın rengi */
+body.dark-mode .ana-kart {
+    background-color: #1e1e1e !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+}
+
+/* Ürün kartları gece modunda karanlıkta kaybolmasın */
+body.dark-mode .urun-kart {
+    background-color: #252525 !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+/* Yazıların okunabilirliğini garantileyelim */
+body.dark-mode h2, body.dark-mode h3, body.dark-mode p, body.dark-mode small {
+    color: #ffffff !important;
+}
+
+/* Cüzdan bölümü gece modunda parlasın */
+body.dark-mode #wallet-section {
+    background-color: #1b2e1b !important;
+    color: #2ecc71 !important;
+}
+        /* --- 22. GÜN EFEKTLERİ --- */
+.urun-kart:hover {
+    transform: translateY(-8px); 
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2); 
+    transition: all 0.3s ease; 
+}
+
+.btn-satinal:active {
+    transform: scale(0.95); 
+}
     </style>
 </head>
 <body>

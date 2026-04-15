@@ -6,9 +6,9 @@ const urunler = [
     { id: 1, ad: "Basketbol Topu", fiyat: 250, resim: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Basketball.png/200px-Basketball.png" },
     { id: 2, ad: "Premium Saat", fiyat: 500, resim: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200" },
     { id: 3, ad: "Kulaklık", fiyat: 750, resim: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" },
-    { id: 4, ad: "Gamer Kulaklık", fiyat: 1500, resim: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" }
+    { id: 4, ad: "Gamer Kulaklık", fiyat: 1500, resim: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" },
+    { id: 5, ad: "Gaming Mouse", fiyat: 400, resim: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=200" }
 ];
-
 function bakiyeGuncelle() {
     document.getElementById("bakiye-miktari").innerText = bakiye;
     localStorage.setItem("mertiX_bakiye", bakiye);
